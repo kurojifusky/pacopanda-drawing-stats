@@ -1,7 +1,23 @@
 import json
 import yaml
+import requests
 from typing import Any
 from datetime import timedelta
+from urllib.parse import urlencode, urlparse, urlunparse, parse_qsl
+from typing import Dict
+
+rs = requests.Session()
+
+
+def req_url_params(base_url: str, params: Dict[str, str]) -> str:
+    parsed_url = urlparse(base_url)
+
+    query_params = dict(parse_qsl(parsed_url.query))
+    query_params.update(params)
+
+    parsed_url = parsed_url._replace(query=urlencode(query_params))
+
+    return rs.get(urlunparse(parsed_url))
 
 
 def load_file(file: str) -> Any:
