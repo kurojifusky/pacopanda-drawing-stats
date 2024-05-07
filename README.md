@@ -4,10 +4,10 @@
   <h1 align="center">Paco Drawing Stats</h1>
 
   <a href="https://opensource.org/licenses/apache-2-0">
-		<img src="https://img.shields.io/github/license/kuroji-fusky/pacopanda-drawing-stats?style=flat-square">
+		<img src="https://img.shields.io/github/license/kurojifusky/pacopanda-drawing-stats?style=flat-square">
 	</a>
   <a href="https://www.codefactor.io/repository/github/kuroji-fusky/pacopanda-drawing-stats">
-    <img alt="CodeFactor Grade" src="https://img.shields.io/codefactor/grade/github/kuroji-fusky/pacopanda-drawing-stats?style=flat-square">
+    <img alt="CodeFactor Grade" src="https://img.shields.io/codefactor/grade/github/kurojifusky/pacopanda-drawing-stats?style=flat-square">
   </a>
 </div>
 
