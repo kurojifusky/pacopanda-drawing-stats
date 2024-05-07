@@ -2,23 +2,24 @@
 export default defineNuxtConfig({
   devtools: { enabled: false },
   modules: [
+    "@nuxt/content",
+    "nuxt-og-image",
+    "nuxt-headlessui",
+    "nuxt-lodash",
     [
       "@nuxt/image",
       {
         quality: 85,
       },
     ],
-    "@nuxt/content",
     [
-      "nuxt-simple-sitemap",
+      "@nuxtjs/sitemap",
       {
         exclude: ["api/**"],
         credits: false,
       },
     ],
     ["nuxt-icon", { size: 22 }],
-    "nuxt-headlessui",
-    "nuxt-lodash",
   ],
   app: {
     head: {
@@ -47,7 +48,6 @@ export default defineNuxtConfig({
     plugins: {
       tailwindcss: {},
       autoprefixer: {},
-      ...(process.env.NODE_ENV === "production" ? { cssnano: {} } : {}),
     },
   },
 })
