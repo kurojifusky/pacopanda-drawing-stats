@@ -2,6 +2,10 @@
 
 ## 2024
 
+### May 13
+
+- Rewrite from Nuxt 3 to Astro + Lit
+
 ### January 23
 
 - Update project license from MIT to Apache-2.0

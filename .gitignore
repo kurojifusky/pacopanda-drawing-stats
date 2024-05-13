@@ -1,25 +1,20 @@
-node_modules
-.DS_Store
+node_modules/
+.DS_Store/
 *.pem
-.fleet
-.idea
-.output
-.data
-.nuxt
-.nitro
-.cache
-dist
 
-logs
+.idea/
+dist/
+
+.astro/
+
 *.log*
 
 .env
 .env.*
 !.env.example
 
-# vercel
-.vercel
-.turbo
+# Turborepo
+.turbo/
 
 # python
 *.idea

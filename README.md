@@ -4,8 +4,8 @@
   <h1 align="center">Paco Drawing Stats</h1>
 
   <a href="https://opensource.org/licenses/apache-2-0">
-		<img src="https://img.shields.io/github/license/kurojifusky/pacopanda-drawing-stats?style=flat-square">
-	</a>
+  <img src="https://img.shields.io/github/license/kurojifusky/pacopanda-drawing-stats?style=flat-square">
+ </a>
   <a href="https://www.codefactor.io/repository/github/kuroji-fusky/pacopanda-drawing-stats">
     <img alt="CodeFactor Grade" src="https://img.shields.io/codefactor/grade/github/kurojifusky/pacopanda-drawing-stats?style=flat-square">
   </a>
@@ -20,7 +20,7 @@ and parses drawing data from a furry artist and illustrator [Paco Panda][paco].
 
 ## How it works
 
-The main gist of the project is that it uses a web scraper written in Python to get new
+The main gist of the project is that it uses a web scraper to get new
 drawing submission from his socials; then cleans up the data and adds it to the
 database. And using that to build this website and the underlying APIs on it!
 

@@ -1,4 +1,14 @@
 module.exports = {
-  ...require("@kuro-utils/prettier/index.json"),
-  plugins: ["prettier-plugin-tailwindcss"],
+  useTabs: false,
+  tabWidth: 2,
+  semi: false,
+  endOfLine: "lf",
+  overrides: [
+    {
+      files: ["./**/tailwind.config.ts"],
+      options: {
+        printWidth: 125,
+      },
+    },
+  ],
 }

@@ -1,8 +1,0 @@
-{
-  "recommendations": [
-    "heybourn.headwind",
-    "ms-python.vscode-pylance",
-    "bradlc.vscode-tailwindcss",
-    "svelte.svelte-vscode"
-  ]
-}

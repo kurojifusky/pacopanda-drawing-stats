@@ -1,33 +1,16 @@
 import type { Config } from "tailwindcss"
 import typographyPlugin from "@tailwindcss/typography"
 
-const extendDefaults = {
-  fonts: ["system-ui", "sans-serif"],
-  unset: {
-    unset: "unset",
-  },
-}
+const fonts = ["system-ui", "sans-serif"]
 
 export default {
-  darkMode: "class",
-  content: [
-    "./components/**/*.{js,vue,ts}",
-    "./layouts/**/*.vue",
-    "./pages/**/*.vue",
-    "./plugins/**/*.{js,ts}",
-    "./app.vue",
-    "./error.vue",
-    "./nuxt.config.ts",
-  ],
+  content: ["./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}"],
   theme: {
     extend: {
       fontFamily: {
-        heading: ["Inter", ...extendDefaults.fonts],
-        body: ["Open Sans", ...extendDefaults.fonts],
+        heading: ["Inter", ...fonts],
+        body: ["Open Sans", ...fonts],
       },
-      inset: extendDefaults.unset,
-      spacing: extendDefaults.unset,
-      margin: extendDefaults.unset,
     },
   },
   plugins: [typographyPlugin],

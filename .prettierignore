@@ -1,9 +1,20 @@
 # Directories
-node_modules
-.nuxt
-.output
-.vercel
-dist
+node_modules/
+.DS_Store/
+*.pem
+
+.idea/
+dist/
+.astro/
+
+*.log*
+
+.env
+.env.*
+!.env.example
+
+# Turborepo
+.turbo/
 
 *.md
 !README.md
@@ -24,5 +35,3 @@ dist
 .mypy_cache
 venv
 Lib/**
-
-utils

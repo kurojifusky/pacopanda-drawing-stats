@@ -6,12 +6,10 @@
   "scripts": {
     "dev": "turbo dev",
     "build": "turbo build",
-    "prepare": "husky || true",
-    "postinstall": "cd client && nuxt prepare"
+    "prepare": "husky || true"
   },
   "workspaces": [
-    "client",
-    "utils/configs/**"
+    "client"
   ],
   "husky": {
     "hooks": {
@@ -23,15 +21,19 @@
     "server/**/!(*cache).json": "yarn prettier --write ."
   },
   "devDependencies": {
-    "@kuro-utils/eslint-config-vue": "*",
-    "@kuro-utils/prettier": "*",
+    "@stylistic/eslint-plugin": "^1.6.3",
     "@turbo/gen": "latest",
+    "@typescript-eslint/eslint-plugin": "^7.1.0",
+    "@typescript-eslint/parser": "^7.1.0",
     "eslint": "^8.57.0",
     "husky": "^9.0.0",
     "lint-staged": "^15.0.1",
     "prettier": "^3.0.3",
     "prettier-plugin-tailwindcss": "^0.5.11",
     "turbo": "latest"
+  },
+  "peerDependencies": {
+    "eslint": ">= 8.5"
   },
   "engines": {
     "node": ">=20.0.0",
