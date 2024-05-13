@@ -1,18 +1,26 @@
+/* eslint-disable no-undef */
 /** @type {import('eslint').Linter.Config} */
 module.exports = {
   root: true,
   extends: [
     "eslint:recommended",
-    "plugin:@typescript-eslint/recommended",
+    "plugin:astro/recommended",
     "plugin:import/recommended",
     "plugin:import/typescript",
-    "plugin:prettier/recommended",
+    "plugin:@typescript-eslint/recommended",
   ],
   plugins: ["@stylistic"],
-  parser: ["@typescript-eslint/parser"],
-  parserOptions: {
-    sourceType: "module",
-  },
+  parser: "@typescript-eslint/parser",
+  overrides: [
+    {
+      files: ["*.astro"],
+      parser: "astro-eslint-parser",
+      parserOptions: {
+        parser: "@typescript-eslint/parser",
+        extraFileExtensions: [".astro"],
+      },
+    },
+  ],
   rules: {
     "no-var": "error",
     "no-console": "warn",
@@ -20,8 +28,6 @@ module.exports = {
     "no-duplicate-imports": "warn",
     "no-use-before-define": "off",
     "max-depth": ["error", 3],
-
-    "import/no-unused-modules": ["error", { unusedExports: true }],
 
     "@typescript-eslint/ban-ts-comment": "off",
     "@typescript-eslint/no-namespace": "off",
@@ -51,7 +57,7 @@ module.exports = {
     "@stylistic/object-curly-newline": [
       "error",
       {
-        minProperties: 3,
+        minProperties: 6,
         consistent: true,
       },
     ],
