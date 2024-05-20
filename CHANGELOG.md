@@ -4,7 +4,7 @@
 
 ### May 13
 
-- Rewrite from Nuxt 3 to Astro + Lit
+- Rewrite from Nuxt 3 back to SvelteKit (there's a good reason why this project has been delayed for 3 years now)
 
 ### January 23
 

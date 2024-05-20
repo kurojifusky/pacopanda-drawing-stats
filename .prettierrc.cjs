@@ -3,6 +3,7 @@ module.exports = {
   tabWidth: 2,
   semi: false,
   endOfLine: "lf",
+  plugins: ["prettier-plugin-svelte"],
   overrides: [
     {
       files: ["./**/tailwind.config.ts"],
@@ -10,5 +11,6 @@ module.exports = {
         printWidth: 125,
       },
     },
+    { files: "*.svelte", options: { parser: "svelte" } },
   ],
 }

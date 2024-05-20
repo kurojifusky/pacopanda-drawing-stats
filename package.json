@@ -17,7 +17,7 @@
     }
   },
   "lint-staged": {
-    "client/**": "yarn prettier --write \"**/*.{json,cjs,js,ts,vue,md}\"",
+    "client/**": "yarn prettier --write \"**/*.{cjs,js,ts,svelte,md}\"",
     "server/**/!(*cache).json": "yarn prettier --write ."
   },
   "devDependencies": {
@@ -26,7 +26,6 @@
     "@typescript-eslint/eslint-plugin": "^7.1.0",
     "@typescript-eslint/parser": "^7.1.0",
     "eslint": "^8.57.0",
-    "eslint-plugin-astro": "^1.2.0",
     "eslint-plugin-import": "^2.29.1",
     "husky": "^9.0.0",
     "lint-staged": "^15.0.1",

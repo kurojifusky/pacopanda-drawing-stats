@@ -5,13 +5,13 @@ node_modules/
 
 .idea/
 dist/
-.astro/
+
+build/
+.svelte-kit/
 
 *.log*
 
 .env
-.env.*
-!.env.example
 
 # Turborepo
 .turbo/
@@ -21,15 +21,13 @@ dist/
 !CHANGELOG.md
 !src/client/content/**/*.md
 
-.env
-.env.*
-!.env.example
-
 # Files
 *.env*
 *.txt
 *.lock
 *.py
+
+client/static/**
 
 # Python stuff
 .mypy_cache
