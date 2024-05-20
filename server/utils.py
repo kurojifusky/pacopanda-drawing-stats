@@ -17,7 +17,10 @@ from selenium.webdriver.common.by import By
 rs = requests.Session()
 
 
-def req_url_params(base_url: str, params: Dict[str, str]) -> str:
+def req_url_params(base_url: str, params: Dict[str, str], headers: Dict[str, str] | None) -> str:
+    if headers is None:
+        headers = {}
+
     parsed_url = urlparse(base_url)
 
     query_params = dict(parse_qsl(parsed_url.query))
@@ -25,7 +28,7 @@ def req_url_params(base_url: str, params: Dict[str, str]) -> str:
 
     parsed_url = parsed_url._replace(query=urlencode(query_params))
 
-    return rs.get(urlunparse(parsed_url))
+    return rs.get(urlunparse(parsed_url), headers=headers)
 
 
 def load_file(file: str) -> Any:
