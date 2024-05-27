@@ -9,6 +9,17 @@ module.exports = {
     "plugin:svelte/recommended",
     "prettier",
   ],
+  ignorePatterns: [
+    ".DS_Store",
+    "node_modules/",
+    "build/",
+    ".svelte-kit/",
+    "package/",
+    ".env",
+    ".env.*",
+    "static/",
+    "yarn.lock",
+  ],
   parser: "@typescript-eslint/parser",
   plugins: ["@stylistic", "@typescript-eslint"],
   parserOptions: {
