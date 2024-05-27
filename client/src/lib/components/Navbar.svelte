@@ -2,12 +2,14 @@
   const navItems = ["Browse", "About"]
 </script>
 
-<nav class="sticky top-0 px-6 py-2">
-  <div><a href="/">logo</a></div>
-  <ul>
+<nav class="sticky top-0 px-8 flex items-center justify-between">
+  <div>
+    <a href="/">logo</a>
+  </div>
+  <ul class="flex gap-x-0.5">
     {#each navItems as item}
       <li>
-        <a href={`/${item.toLowerCase()}`}>
+        <a class="px-3 py-5 block" href={`/${item.toLowerCase()}`}>
           {item}
         </a>
       </li>
