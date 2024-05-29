@@ -5,21 +5,11 @@
   "type": "module",
   "scripts": {
     "dev": "turbo dev",
-    "build": "turbo build",
-    "prepare": "husky || true"
+    "build": "turbo build"
   },
   "workspaces": [
     "client"
   ],
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
-  "lint-staged": {
-    "client/**": "yarn prettier --write \"**/*.{cjs,js,ts,svelte,md}\"",
-    "server/**/!(*cache).json": "yarn prettier --write ."
-  },
   "devDependencies": {
     "@stylistic/eslint-plugin": "^1.6.3",
     "@turbo/gen": "latest",
@@ -27,8 +17,6 @@
     "@typescript-eslint/parser": "^7.1.0",
     "eslint": "^8.57.0",
     "eslint-plugin-import": "^2.29.1",
-    "husky": "^9.0.0",
-    "lint-staged": "^15.0.1",
     "prettier": "^3.0.3",
     "prettier-plugin-tailwindcss": "^0.5.11",
     "turbo": "latest"
