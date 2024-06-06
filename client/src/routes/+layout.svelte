@@ -10,6 +10,10 @@
 
 <Navbar />
 
+<svelte:head>
+  <link rel="preconnect" href="http://localhost:4000/" />
+</svelte:head>
+
 <main>
   <slot />
 </main>
