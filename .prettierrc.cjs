@@ -4,13 +4,5 @@ module.exports = {
   semi: false,
   endOfLine: "lf",
   plugins: ["prettier-plugin-svelte"],
-  overrides: [
-    {
-      files: ["./**/tailwind.config.ts"],
-      options: {
-        printWidth: 125,
-      },
-    },
-    { files: "*.svelte", options: { parser: "svelte" } },
-  ],
+  overrides: [{ files: "*.svelte", options: { parser: "svelte" } }],
 }
