@@ -12,16 +12,6 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware.trustedhost import TrustedHostMiddleware
 from .logger import log
 
-parser = argparse.ArgumentParser()
-parser.add_argument("--prod",
-                    action="store_true",
-                    help="Runs the server in production mode, disables reload")
-
-parser.add_argument("--gql", "--graphql",
-                    action="store_true",
-                    help="Runs the server in GraphQL mode")
-
-args = parser.parse_args()
 
 app = FastAPI()
 
@@ -91,7 +81,36 @@ async def artworks_list(year: int, items: str):
     pass
 
 
+# /status
+@app.get("/status")
+async def server_status():
+    pass
+
+
+# /new/character{?token}
+@app.post("/new/character")
+async def new_character(token: str):
+    pass
+
+
+# /new/artwork{?token}
+@app.post("/new/artwork")
+async def new_character(token: str):
+    pass
+
+
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--prod",
+                        action="store_true",
+                        help="Runs the server in production mode, disables reload")
+
+    parser.add_argument("--gql", "--graphql",
+                        action="store_true",
+                        help="Runs the server in GraphQL mode")
+
+    args = parser.parse_args()
+
     APP_NAME, HOST, PORT = "main:app", "localhost", 4000
 
     if not args.prod:
