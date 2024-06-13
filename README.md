@@ -65,12 +65,6 @@ source venv/Scripts/activate
 pip install -r requirements.txt
 ```
 
-**[Optional]** This project uses both [`husky`](https://github.com/typicode/husky) and [`pre-commit`](https://pre-commit.com), `pre-commit` needs to be installed first.
-
-```sh
-pip install pre-commit
-```
-
 ### Docker
 
 TBA
