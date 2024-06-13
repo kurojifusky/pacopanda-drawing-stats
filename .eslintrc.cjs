@@ -51,10 +51,9 @@ module.exports = {
 
     "import/no-unresolved": "off",
 
-    "@typescript-eslint/ban-ts-comment": "off",
     "@typescript-eslint/no-namespace": "off",
     "@typescript-eslint/no-unused-vars": "warn",
-    "@typescript-eslint/member-delimiter-style": "warn",
+    "@typescript-eslint/member-delimiter-style": "off",
     "@typescript-eslint/no-non-null-assertion": "off",
     "@typescript-eslint/consistent-type-imports": [
       "error",

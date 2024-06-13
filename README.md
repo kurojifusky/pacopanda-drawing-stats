@@ -80,6 +80,7 @@ TBA
 
 ### Endpoints
 
+- `GET /status`
 - `GET /stats{?filters}`
 - `GET /artworks`
 - `GET /artwork{/title}`
