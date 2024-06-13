@@ -44,11 +44,11 @@ export interface CharacterResponse {
 /**
  * Returns a list of characters and its recent appearances from artworks
  *
- * @param ExtendPlot Extends from `TimeSeriesData<DataPlot>`
+ * @param _DataPlot Extends from `TimeSeriesData<DataPlot>`
  */
-export interface CharacterMultiResponse<ExtendPlot extends number[]> {
+export interface CharacterMultiResponse<_DataPlot extends number[] = [number]> {
   characters: Omit<CharacterResponse, "plot">[]
-  plot?: TimeSeriesData<ExtendPlot>[]
+  plot?: TimeSeriesData<_DataPlot>[]
 }
 /**
  * Returns an artwork and its characters linked to it
@@ -66,9 +66,9 @@ export interface ArtworkResponse {
 /**
  * Returns a list of artworks and its characters linked to it
  *
- * @param ExtendPlot Extends from `TimeSeriesData<DataPlot>`
+ * @param _DataPlot Extends from `TimeSeriesData<DataPlot>`
  */
-export interface ArtworkMultiResponse<ExtendPlot extends number[]> {
+export interface ArtworkMultiResponse<_DataPlot extends number[] = [number]> {
   artworks: Omit<ArtworkResponse, "plot">[]
-  plot?: TimeSeriesData<ExtendPlot>[]
+  plot?: TimeSeriesData<_DataPlot>[]
 }
