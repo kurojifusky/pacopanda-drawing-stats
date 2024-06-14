@@ -32,4 +32,7 @@ client/static/**
 # Python stuff
 .mypy_cache
 venv
-Lib/**
+.venv
+
+# Don't format contents from submodule
+fusky-labs-eslint/**

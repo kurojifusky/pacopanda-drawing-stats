@@ -58,6 +58,7 @@ export const postNewCharacters = async ({
 }: EndpointRequiresAuth) => {
   return await fetchWrapper(endpoint.newArtwork, { method: "POST" })
 }
+
 /**
  * Requires an auth token and accepts POST requests only
  */
