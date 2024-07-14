@@ -9,11 +9,8 @@ services:
     ports:
       - "4000:4000"
 
-  paco-redis:
-    image: redis/redis-stack:latest
+  paco-db:
+    container_name: Paco MongoDB
+    image: mongo:latest
     ports:
-      - 6379:6379
-      - 8001:8001
-
-volumes:
-  paco-api:
+      - 27017:27017

@@ -19,17 +19,11 @@ const config = {
       mode: "nonce",
       directives: {
         "default-src": ["self", "localhost:*"],
-        "connect-src": [
-          "self",
-          "localhost:*",
-          "https://cloudflareinsights.com",
-          "https://*.clarity.ms",
-        ],
+        "connect-src": ["self", "localhost:*", "https://*.clarity.ms"],
         "script-src": [
           "self",
           "unsafe-eval",
           "localhost:*",
-          "https://static.cloudflareinsights.com",
           "https://www.clarity.ms",
         ],
         "style-src": ["self", "localhost:*", "unsafe-inline"],

@@ -7,6 +7,7 @@
 
 <svelte:head>
   <title>{title} | {config.siteTitle}</title>
+  <meta name="description" content={description} />
   <meta property="og:title" content={`${title} | ${config.siteTitle}`} />
-  <meta name="twitter:title" content={`${title} | ${config.siteTitle}`} />
+  <meta property="og:description" content={description} />
 </svelte:head>

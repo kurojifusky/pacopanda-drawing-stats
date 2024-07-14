@@ -18,7 +18,7 @@ export interface StatisticsResponse<Data = ArtworkResponse> {
   total_artworks: number
   total_characters: number
   data?: {
-    [year: number]: Array<TimeSeriesData & Data>
+    [year: `20${number}`]: Array<TimeSeriesData & Data>
   }
 }
 /**

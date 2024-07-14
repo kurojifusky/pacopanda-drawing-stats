@@ -30,38 +30,36 @@ const fetchWrapper = async <T extends object>(
   options) as unknown as Promise<T>
 }
 
-export const getServerStatus = async () => {
+export const serverStatus = async () => {
   return await fetchWrapper<ServerStatusResponse>(endpoint.status)
 }
 
-export const getArtwork = async () => {
-  return await fetchWrapper<ArtworkResponse>(endpoint.artwork)
+export const artwork = {
+  getOne: async () => {
+    return await fetchWrapper<ArtworkResponse>(endpoint.artwork)
+  },
+  getMulti: async <P extends number[] = [number]>() => {
+    return await fetchWrapper<ArtworkMultiResponse<P>>(endpoint.artworks)
+  },
+  /**
+   * Requires an auth token and accepts POST requests only
+   */
+  post: async ({ token_key }: EndpointRequiresAuth) => {
+    return await fetchWrapper(endpoint.newCharacter, { method: "POST" })
+  },
 }
 
-export const getArtworks = async <P extends number[] = [number]>() => {
-  return await fetchWrapper<ArtworkMultiResponse<P>>(endpoint.artworks)
-}
-
-export const getCharacter = async () => {
-  return await fetchWrapper<CharacterResponse>(endpoint.character)
-}
-
-export const getCharacters = async <P extends number[] = [number]>() => {
-  return await fetchWrapper<CharacterMultiResponse<P>>(endpoint.characters)
-}
-
-/**
- * Requires an auth token and accepts POST requests only
- */
-export const postNewCharacters = async ({
-  token_key,
-}: EndpointRequiresAuth) => {
-  return await fetchWrapper(endpoint.newArtwork, { method: "POST" })
-}
-
-/**
- * Requires an auth token and accepts POST requests only
- */
-export const postNewArtworks = async ({ token_key }: EndpointRequiresAuth) => {
-  return await fetchWrapper(endpoint.newArtwork, { method: "POST" })
+export const character = {
+  getOne: async () => {
+    return await fetchWrapper<CharacterResponse>(endpoint.character)
+  },
+  getMulti: async <P extends number[] = [number]>() => {
+    return await fetchWrapper<CharacterMultiResponse<P>>(endpoint.characters)
+  },
+  /**
+   * Requires an auth token and accepts POST requests only
+   */
+  post: async ({ token_key }: EndpointRequiresAuth) => {
+    return await fetchWrapper(endpoint.newArtwork, { method: "POST" })
+  },
 }

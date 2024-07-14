@@ -37,6 +37,6 @@ module.exports = {
   rules: {
     "@typescript-eslint/member-delimiter-style": "off",
 
-    "import/no-unused-modules": "warn",
+    "import/no-unused-modules": "off",
   },
 }
