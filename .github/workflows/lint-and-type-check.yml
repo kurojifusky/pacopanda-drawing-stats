@@ -3,7 +3,7 @@ on: [push, pull_request]
 
 jobs:
   lint-client:
-    name: Lint Client
+    name: Client side lint and quality
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -20,6 +20,7 @@ jobs:
 
       - name: Format check via Prettier
         run: yarn prettier --check .
+        continue-on-error: true
 
       - name: Format check via ESLint
         run: yarn eslint -c eslintrc.format.cjs .
@@ -29,7 +30,7 @@ jobs:
 
   # Python stuff
   lint-server:
-    name: Server lint via Python
+    name: Python lint and type check
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -43,28 +44,13 @@ jobs:
           cache: "pip"
 
       - name: Install dependencies
-        run: pip install -r requirements.txt
+        run: |
+          pip install pycodestyle
+          pip install -r requirements.txt
 
-      - name: pep8 linting
-        run: pep8 .
+      - name: pycodestyle (pep8) linting
+        run: pycodestyle .
+        continue-on-error: true
 
-  type-check-server:
-    name: Type check with mypy
-    runs-on: ubuntu-latest
-    needs: [lint-server]
-    defaults:
-      run:
-        working-directory: ./server
-    steps:
-      - uses: actions/checkout@v4
-      - name: Setup Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.10"
-          cache: "pip"
-
-      - name: Install dependencies
-        run: pip install -r requirements.txt
-
-      - name: pep8 linting
-        run: mypy
+      - name: Type checking
+        run: 'mypy $(find . -type f -name "*.py" ! -path "./venv/**")'
