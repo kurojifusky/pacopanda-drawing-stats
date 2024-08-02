@@ -13,9 +13,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-
-      - name: Install Yarn globally
-        run: npm install -g yarn
+          cache: yarn
 
       - name: Install dependencies
         run: yarn install --no-lockfile --prefer-offline
