@@ -9,3 +9,7 @@ static/
 .env
 .env.*
 yarn.lock
+
+# Don't format contents from these submodules
+packages/fusky-labs-eslint/
+packages/shared/

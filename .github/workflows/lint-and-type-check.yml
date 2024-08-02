@@ -1,0 +1,69 @@
+name: Codebase lint
+on: [push, pull_request]
+
+jobs:
+  lint-client:
+    name: Lint Client
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install Yarn globally
+        run: npm install -g yarn
+
+      - name: Install dependencies
+        run: yarn install --no-lockfile --prefer-offline
+
+      - name: Format check via Prettier
+        run: yarn prettier --check .
+
+      - name: Format check via ESLint
+        run: yarn eslint -c eslintrc.format.cjs .
+
+      - name: Code quality check via ESLint
+        run: yarn eslint .
+
+  # Python stuff
+  lint-server:
+    name: Server lint via Python
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./server
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+          cache: "pip"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: pep8 linting
+        run: pep8 .
+
+  type-check-server:
+    name: Type check with mypy
+    runs-on: ubuntu-latest
+    needs: [lint-server]
+    defaults:
+      run:
+        working-directory: ./server
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+          cache: "pip"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: pep8 linting
+        run: mypy

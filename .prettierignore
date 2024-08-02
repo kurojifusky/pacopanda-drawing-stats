@@ -34,5 +34,6 @@ client/static/**
 venv
 .venv
 
-# Don't format contents from submodule
-fusky-labs-eslint/**
+# Don't format contents from these submodules
+packages/fusky-labs-eslint/
+packages/shared/
