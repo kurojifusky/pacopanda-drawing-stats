@@ -1,0 +1,11 @@
+.svelte-kit/
+node_modules/
+build/
+package/
+static/
+
+.DS_Store
+
+.env
+.env.*
+yarn.lock

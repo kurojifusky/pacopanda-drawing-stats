@@ -1,18 +1,15 @@
-/** @type {import("eslint").Linter.Config} */
 module.exports = {
-  root: true,
-  extends: ["@pds/base", "@fusky-labs/base", "plugin:svelte/recommended"],
+  env: {
+    browser: true,
+    es2021: true,
+    node: true,
+  },
   plugins: ["@typescript-eslint"],
   parser: "@typescript-eslint/parser",
   parserOptions: {
     sourceType: "module",
     ecmaVersion: 2020,
     extraFileExtensions: [".svelte"],
-  },
-  env: {
-    browser: true,
-    es2017: true,
-    node: true,
   },
   overrides: [
     {
@@ -23,5 +20,4 @@ module.exports = {
       },
     },
   ],
-  rules: {},
 }

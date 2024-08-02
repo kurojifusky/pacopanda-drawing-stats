@@ -2,10 +2,6 @@
 
 ## 2024
 
-### June 14
-
-- Added [`fusky-labs-eslint`](https://github.com/fusky-labs/eslint-config) submodule to extend pre-defined configs
-
 ### May 13
 
 - Rewrite from Nuxt 3 back to SvelteKit (there's a good reason why this project has been delayed for 3 years now)
