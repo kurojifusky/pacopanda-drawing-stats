@@ -1,19 +1,12 @@
 import re
-import json
-import yaml
 import requests
 from logger import log
-from typing import Any, Literal, Dict
-from datetime import timedelta
+from typing import Literal, Dict, Any
 from urllib.parse import urlencode, urlparse, urlunparse, parse_qsl
-from slugify import slugify
 from bs4 import BeautifulSoup
-from .exceptions import StaticWebdriverError
 from selenium import webdriver
-from selenium.webdriver import Firefox as WebDriver
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.common.by import By
-
+from .io import load_file
+from .exceptions import StaticWebdriverError, RequiredParameter
 
 rs = requests.Session()
 
@@ -45,12 +38,12 @@ class WebExtractor:
     def __init__(self, mode: Literal["static", "dynamic"] = "static") -> None:
         self._scrape_mode = mode
 
-        self._is_static_mode = self._scrape_mode == "static"
-        self._is_dynamic_mode = self._scrape_mode == "dynamic"
+        self._static_mode = self._scrape_mode == "static"
+        self._dynamic_mode = self._scrape_mode == "dynamic"
 
-    # def _check_static_error(self):
-    #     if self._is_static_mode or self._driver is None:
-    #         raise StaticWebdriverError("Can't invoke a Selenium-specific function when 'static' mode is specified.")  # NOQA
+    def _check_static_error(self):
+        if self._static_mode or self._driver is None:
+            raise StaticWebdriverError("Can't invoke a Selenium-specific function when 'static' mode is specified.")  # NOQA
 
     def url_request(self, url: str, params: OptionalDict, append_headers: OptionalDict):
         if params is None:
@@ -65,13 +58,13 @@ class WebExtractor:
             **append_headers
         }
 
-        if self._is_static_mode:
+        if self._static_mode:
             _req = req_url_params(url, params=params, headers=_headers)
             log("debug", f"Request {url}, recieved status code {_req.status_code}")  # NOQA
 
             return BeautifulSoup(_req.text, "html.parser")
 
-        if self._is_dynamic_mode:
+        if self._dynamic_mode:
             profile = webdriver.FirefoxProfile()
             profile.set_preference("general.useragent.override", _headers)
 
@@ -79,14 +72,14 @@ class WebExtractor:
             driver.get(url)
 
 
-def parse_metadata_by_selector(url: str, title: str, description: str, tags: str, date: str) -> dict[str, str | int | list[str]]:
-    # TODO ongoing refactoring
+def parse_metadata_by_selector(url: str, title: str, description: str, tags: str, date: str) -> dict[str, str | list[str]]:
     """
     Gets the page metadata from a page request
 
     :param url: The artwork URL
 
-    :return: An object that returns a title, description, date, and a list of tags
+    Returns:
+        dict[str, str | list[str]]: An object that returns a title, description, date, and a list of tags
     """
     extractor = WebExtractor(mode="static")
 
@@ -101,6 +94,19 @@ def parse_metadata_by_selector(url: str, title: str, description: str, tags: str
 
 
 def parse_description(description: str, tags: list[str]) -> dict[str, str]:
+    """
+    Separates description and parses a type of medium
+
+    Args:
+        description (str): _description_
+        tags (list[str]): _description_
+
+    Raises:
+        RequiredParameter: _description_
+
+    Returns:
+        dict[str, str]: _description_
+    """
     if description is None or tags is None:
         raise RequiredParameter("Param can't be None or empty string")
 
@@ -116,62 +122,8 @@ def parse_description(description: str, tags: list[str]) -> dict[str, str]:
     parsed_medium = list(filter(None, parsed_medium))
 
 
-def load_file(file: str) -> Any:
+def consolidate_metadata(artwork_data: dict[str, Any]) -> None:
     """
-    Opens file, will open as JSON or parse to YAML if respective file extension is detected
-
-    :param file: File name
-    :return File contents
+    Consolidates metadata from various pre-defined extractors
     """
-    with open(file, 'r', encoding='utf-8') as f:
-        if file.endswith('.json'):
-            return json.load(f)
-
-        if file.endswith('.yml') or file.endswith('.yaml'):
-            return yaml.safe_load(f)
-
-        return f.read()
-
-
-def save_file(data, file: str, indent: bool = False) -> None:
-    """
-    Saves file, will autosave as JSON if file extension is detected
-
-    :param data: Garbage
-    :param file: File name
-    :return File contents
-    """
-    with open(file, 'w+', encoding='utf-8') as f:
-        if file.endswith('.json'):
-            if not indent:
-                json.dump(data, f, ensure_ascii=True)
-                return
-
-            json.dump(data, f, ensure_ascii=True, indent=2)
-        else:
-            f.write(data)
-
-
-def format_time(time: timedelta) -> str:
-    """
-    Formats delta time (current time - whatever time has passed) to
-    readable time
-
-    :param time: Requires a timedelta type
-    :return: A string with a readable time format D HH:MM:SS
-    :raises TypeError: If the time parameter is not of type timedelta
-    """
-    if not isinstance(time, timedelta):
-        raise TypeError("Invalid input type. Param 'time' must be a timedelta.")  # NOQA
-
-    SECS_IN_DAYS = 86400
-
-    _dm_days, _dm_seconds = divmod(time.total_seconds(), SECS_IN_DAYS)
-
-    d = f"{int(_dm_days)} days" if _dm_days != 1 else f"{int(_dm_days)} day"
-    h, remainder = divmod(_dm_seconds, 3600)
-    m, s = divmod(remainder, 60)
-
-    h, m, s = map(lambda v: str(v).zfill(2), map(int, (h, m, s)))
-
-    return f"{d} {h}:{m}:{s}"
+    pass
