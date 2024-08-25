@@ -11,6 +11,7 @@ beautifulsoup4
 colorama
 requests
 pydantic
+selenium
 
 Pillow
 
@@ -18,3 +19,6 @@ Pillow
 types-beautifulsoup4
 types-colorama
 types-requests
+
+# Used for testing with FastAPI
+httpx

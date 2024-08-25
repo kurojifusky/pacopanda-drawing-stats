@@ -1,5 +1,5 @@
 import unittest
-from data.extractor import WebExtractor
+from ..utils import WebExtractor
 
 
 class TestWebScraper(unittest.TestCase):

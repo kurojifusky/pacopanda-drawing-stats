@@ -12,6 +12,13 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware.trustedhost import TrustedHostMiddleware
 from .logger import log
 
+parser = argparse.ArgumentParser()
+parser.add_argument("--prod",
+                    action="store_true",
+                    help="Runs the server in production mode, disables reload")
+
+args = parser.parse_args()
+
 
 app = FastAPI()
 
@@ -28,6 +35,7 @@ app.add_middleware(
     allow_origins=origins,
     allow_credentials=True,
     allow_headers=["*"],
+    allow_methods=["GET", "POST", "DELETE", "PATCH"]
 )
 
 app.add_middleware(
@@ -59,25 +67,25 @@ async def character(character: str):
 
 # /character{/paco}/appearances{?limit,query,range}
 @app.get("/character/{character}/appearances")
-async def character(character: str, year: int, items: str):
+async def character(character: str, limit: int, query: str, range: str):
     pass
 
 
 # /characters{?limit,query,range}
 @app.get("/characters")
-async def characters_list(year: int, items: str):
+async def characters_list(limit: int, query: str, range: str):
     pass
 
 
 # Ex: /artwork{/big-tree}
 @app.get("/artwork/{artwork}")
-async def artworks_list(artwork: str):
+async def artworks_list():
     pass
 
 
 # /artworks{?limit,query,range}
 @app.get("/artworks")
-async def artworks_list(year: int, items: str):
+async def artworks_list(limit: int, query: str, range: str):
     pass
 
 
@@ -100,17 +108,6 @@ async def new_character(token: str):
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--prod",
-                        action="store_true",
-                        help="Runs the server in production mode, disables reload")
-
-    parser.add_argument("--gql", "--graphql",
-                        action="store_true",
-                        help="Runs the server in GraphQL mode")
-
-    args = parser.parse_args()
-
     APP_NAME, HOST, PORT = "main:app", "localhost", 4000
 
     if not args.prod:

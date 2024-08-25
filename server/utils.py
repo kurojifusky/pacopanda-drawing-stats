@@ -8,6 +8,7 @@ from datetime import timedelta
 from urllib.parse import urlencode, urlparse, urlunparse, parse_qsl
 from slugify import slugify
 from bs4 import BeautifulSoup
+from .exceptions import StaticWebdriverError
 from selenium import webdriver
 from selenium.webdriver import Firefox as WebDriver
 from selenium.webdriver.common.keys import Keys
@@ -16,10 +17,15 @@ from selenium.webdriver.common.by import By
 
 rs = requests.Session()
 
+OptionalDict = Dict[str, str] | None
 
-def req_url_params(base_url: str, params: Dict[str, str], headers: Dict[str, str] | None) -> str:
+
+def req_url_params(base_url: str, params: OptionalDict, headers: OptionalDict) -> str:
     if headers is None:
         headers = {}
+
+    if params is None:
+        params = {}
 
     parsed_url = urlparse(base_url)
 
@@ -29,6 +35,85 @@ def req_url_params(base_url: str, params: Dict[str, str], headers: Dict[str, str
     parsed_url = parsed_url._replace(query=urlencode(query_params))
 
     return rs.get(urlunparse(parsed_url), headers=headers)
+
+
+class WebExtractor:
+    """
+    The combined powers of BeautifulSoup and Selenium, all in one class!
+    """
+
+    def __init__(self, mode: Literal["static", "dynamic"] = "static") -> None:
+        self._scrape_mode = mode
+
+        self._is_static_mode = self._scrape_mode == "static"
+        self._is_dynamic_mode = self._scrape_mode == "dynamic"
+
+    # def _check_static_error(self):
+    #     if self._is_static_mode or self._driver is None:
+    #         raise StaticWebdriverError("Can't invoke a Selenium-specific function when 'static' mode is specified.")  # NOQA
+
+    def url_request(self, url: str, params: OptionalDict, append_headers: OptionalDict):
+        if params is None:
+            params = {}
+
+        if append_headers is None:
+            append_headers = None
+
+        _headers = {
+            'User-Agent': 'Mozilla/5.0 (https://pds.kurojifusky.com) - for Paco Drawing Stats',
+            'Referer': url,
+            **append_headers
+        }
+
+        if self._is_static_mode:
+            _req = req_url_params(url, params=params, headers=_headers)
+            log("debug", f"Request {url}, recieved status code {_req.status_code}")  # NOQA
+
+            return BeautifulSoup(_req.text, "html.parser")
+
+        if self._is_dynamic_mode:
+            profile = webdriver.FirefoxProfile()
+            profile.set_preference("general.useragent.override", _headers)
+
+            driver = webdriver.Firefox(profile)
+            driver.get(url)
+
+
+def parse_metadata_by_selector(url: str, title: str, description: str, tags: str, date: str) -> dict[str, str | int | list[str]]:
+    # TODO ongoing refactoring
+    """
+    Gets the page metadata from a page request
+
+    :param url: The artwork URL
+
+    :return: An object that returns a title, description, date, and a list of tags
+    """
+    extractor = WebExtractor(mode="static")
+
+    _page = extractor.url_request(url)
+
+    return {
+        "title": str(_page.select_one(title).text),
+        "date": str(_page.select_one(date).get('title')),
+        "description": str(_page.select_one(description).text),
+        "tags": [str(tag) for tag in _page.select(tags)]
+    }
+
+
+def parse_description(description: str, tags: list[str]) -> dict[str, str]:
+    if description is None or tags is None:
+        raise RequiredParameter("Param can't be None or empty string")
+
+    char_list = load_file("../characters.yml")
+
+    # This will be utilized 90% of the time
+    desc_split = description.splitlines()
+    parsed_desc = list(filter(None, desc_split))
+
+    mediums = parsed_desc[-1]
+
+    parsed_medium = [re.sub(r'\.|\/', '', x) for x in mediums.split()]
+    parsed_medium = list(filter(None, parsed_medium))
 
 
 def load_file(file: str) -> Any:
@@ -90,94 +175,3 @@ def format_time(time: timedelta) -> str:
     h, m, s = map(lambda v: str(v).zfill(2), map(int, (h, m, s)))
 
     return f"{d} {h}:{m}:{s}"
-
-
-class StaticWebdriverError(Exception):
-    """
-    Throws an exception that invoke a Selenium-specific function when 'static' mode is specified,
-    used the WebExtractor class.
-    """
-    pass
-
-
-class WebExtractor:
-    """
-    The combined powers of BeautifulSoup and Selenium, all in one class!
-    """
-
-    def __init__(self, mode: Literal["static", "dynamic"] = "static") -> None:
-        self._scrape_mode = mode
-
-        self._is_static_mode = self._scrape_mode == "static"
-        self._is_dynamic_mode = self._scrape_mode == "dynamic"
-
-    def _check_static_error(self):
-        if self._is_static_mode or self._driver is None:
-            raise StaticWebdriverError("Can't invoke a Selenium-specific function when 'static' mode is specified.")  # NOQA
-
-    def url_request(self, url: str):
-        _session = requests.Session()
-        _headers = {
-            'User-Agent': 'Mozilla/5.0 (https://kurojifusky.com) - for Paco Drawing Stats',
-            'Referer': url
-        }
-
-        if self._is_static_mode:
-            _req = _session.get(url, headers=self._headers)
-            log("debug", f"Request {url}, recieved status code {_req.status_code}")  # NOQA
-
-            return BeautifulSoup(_req.text, "html.parser")
-
-        if self._is_dynamic_mode:
-            profile = webdriver.FirefoxProfile()
-            profile.set_preference("general.useragent.override", _headers)
-
-            driver = webdriver.Firefox(profile)
-            driver.get(url)
-
-
-class RequiredParameter(Exception):
-    pass
-
-
-def parse_metadata_by_selector(url: str, title: str, description: str, tags: str, date: str) -> dict[str, str | int | list[str]]:
-    # TODO ongoing refactoring
-    """
-    Gets the page metadata from a page request
-
-    :param url: The artwork URL
-
-    :return: An object that returns a title, description, date, and a list of tags
-    """
-    extractor = WebExtractor(mode="static")
-
-    title_selector = selectors.get("title")
-    desc_selector = selectors.get("description")
-    tags_selector = selectors.get("tags")
-    date_selector = selectors.get("date")
-
-    _page = extractor.url_request(url)
-    _description = _page.select_one(desc_selector)
-
-    return {
-        "title": str(_page.select_one(title_selector).text),
-        "date": str(_page.select_one(date_selector).get('title')),
-        "description": str(_description.text),
-        "tags": [str(tag) for tag in _page.select(tags_selector)]
-    }
-
-
-def parse_description(description: str, tags: list[str]) -> dict[str, str]:
-    if description is None or tags is None:
-        raise RequiredParameter("Param can't be None or empty string")
-
-    char_list = load_file("../characters.yml")
-
-    # This will be utilized 90% of the time
-    desc_split = description.splitlines()
-    parsed_desc = list(filter(None, desc_split))
-
-    mediums = parsed_desc[-1]
-
-    parsed_medium = [re.sub(r'\.|\/', '', x) for x in mediums.split()]
-    parsed_medium = list(filter(None, parsed_medium))
