@@ -43,16 +43,13 @@ stuff on the fly.
 
 ### Installation
 
-Install the packages from both directories
+WIP
 
-```sh
-# Install client website
+```console
+cd client
 yarn install
 
-# Go to server
-cd src/python
-
-# Setup venv
+cd server
 python -m venv venv
 
 # Linux
@@ -61,7 +58,6 @@ source venv/Scripts/activate
 # Windows
 .\venv\Scripts\activate
 
-# Then install the goodies
 pip install -r requirements.txt
 ```
 

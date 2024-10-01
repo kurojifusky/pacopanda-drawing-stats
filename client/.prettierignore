@@ -1,0 +1,22 @@
+# Directories
+node_modules/
+.DS_Store/
+*.pem
+
+.idea/
+dist/
+
+build/
+.svelte-kit/
+
+*.log*
+
+.env
+
+# Files
+*.env*
+*.txt
+*.lock
+*.py
+
+client/static/**
