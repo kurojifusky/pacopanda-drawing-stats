@@ -38,7 +38,7 @@ stuff on the fly.
 
 - Node.js 20 or higher (LTS recommended)
 - Python 3.11 or higher
-- Yarn
+- pnpm
 - Docker
 
 ### Installation
@@ -47,7 +47,7 @@ WIP
 
 ```console
 cd client
-yarn install
+pnpm install
 
 cd server
 python -m venv venv
@@ -64,26 +64,6 @@ pip install -r requirements.txt
 ### Docker
 
 TBA
-
-## API
-
-> [!NOTE]
-> Currently, the public APIs only accept `GET` requests. Any
-> other request method will respond with `405 Method Not Allowed`
-> or `403 Forbidden`.
->
-> `👑` - only allowed to be pushed with an auth token
-
-### Endpoints
-
-- `GET /status`
-- `GET /stats{?filters}`
-- `GET /artworks`
-- `GET /artwork{/title}`
-- `GET /characters`
-- `GET /character{?names}`
-- `POST /new/character/` 👑
-- `POST /new/artwork/` 👑
 
 ## About this project
 
