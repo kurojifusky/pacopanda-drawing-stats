@@ -1,3 +1,6 @@
 [submodule "client/packages/kuro-ui"]
 	path = client/packages/kuro-ui
 	url = https://github.com/kuroji-fusky/kuro-ui.git
+[submodule "server/kuropy"]
+	path = server/kuropy
+	url = https://github.com/kuroji-fusky/kuropy.git
