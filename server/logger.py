@@ -1,7 +1,7 @@
 """
 ## Logger
 
-Copyright 2021-2024 Kerby Keith Aquino
+Copyright 2021-2025 Kerby Keith Aquino
 Licensed under Apache-2.0
 """
 import logging
